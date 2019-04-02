@@ -80,7 +80,6 @@ namespace QuantConnect.Tests.Engine.DataFeeds
             var forex = new List<string> { "EURUSD", "USDJPY", "GBPJPY", "AUDUSD", "NZDUSD" };
 
             var feed = RunDataFeed(equities: equities, forex: forex);
-            Thread.Sleep(500);
 
             var emittedData = false;
             ConsumeBridge(feed, TimeSpan.FromSeconds(5), ts =>
@@ -210,7 +209,7 @@ namespace QuantConnect.Tests.Engine.DataFeeds
             Console.WriteLine("newDataCount: " + newDataCount);
             Assert.AreEqual(2, securityChanges);
 
-            Assert.GreaterOrEqual(newDataCount, 10);
+            Assert.GreaterOrEqual(newDataCount, 5);
             Assert.IsTrue(emittedData);
         }
 
@@ -263,7 +262,7 @@ namespace QuantConnect.Tests.Engine.DataFeeds
             Console.WriteLine("newDataCount: " + newDataCount);
             Assert.AreEqual(3, securityChanges);
 
-            Assert.GreaterOrEqual(newDataCount, 10);
+            Assert.GreaterOrEqual(newDataCount, 5);
             Assert.IsTrue(firstTime);
         }
 
@@ -315,7 +314,7 @@ namespace QuantConnect.Tests.Engine.DataFeeds
                 }
             });
 
-            Assert.GreaterOrEqual(newDataCount, 10);
+            Assert.GreaterOrEqual(newDataCount, 5);
             Assert.IsTrue(emittedData);
             Assert.AreEqual(2, securityChanges + _algorithm.SecurityChangesRecord.Count);
             Assert.AreEqual(Symbols.AAPL, _algorithm.SecurityChangesRecord.First().AddedSecurities.First().Symbol);
@@ -480,6 +479,7 @@ namespace QuantConnect.Tests.Engine.DataFeeds
             Console.WriteLine("Count: " + count);
             Console.WriteLine("Spool up time: " + stopwatch.Elapsed);
 
+            Assert.That(count, Is.GreaterThan(20));
             Assert.IsTrue(emittedData);
         }
 
